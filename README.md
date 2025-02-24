@@ -3,4 +3,4 @@ A store management program that is connected to Android and iOS devices to manag
 
 !!! Currently processing it !!!
 
-*Explanations and details as well as comments about the code will be uploaded soon.
+*Explanations and details as well as comments about the code will be uploaded soon plus some changes too.
