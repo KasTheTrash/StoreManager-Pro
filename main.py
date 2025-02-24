@@ -75,22 +75,18 @@ class UI(QMainWindow):
         self.show()
         
     def run_update_script(self):
-        # Τρέξε το αρχείο Python για το update
         result = subprocess.run(['python', r'Forms/management/update/update.py'])
-        # Έλεγχος του κωδικού εξόδου
         if result.returncode == 0:
             print("Η εκτέλεση του update ήταν επιτυχής.")
-            print(result.stdout)  # Προαιρετικά, μπορείς να εκτυπώσεις τα standard output
+            print(result.stdout) 
         else:
             print("Σφάλμα κατά την εκτέλεση του update.")
-            print(result.stderr)  # Προαιρετικά, μπορείς να εκτυπώσεις τα standard error
+            print(result.stderr)  
         
     def view_item(self):
             sub = QMdiSubWindow()
-            
             sub.setWidget(QTextEdit())
             sub.setWindowTitle('view item')
-            
             sub.destroyed.connect(lambda: self.sub_window_closed('view'))
             self.mdi.addSubWindow(sub)
             self.mdi.tabsClosable()
@@ -98,7 +94,7 @@ class UI(QMainWindow):
             self.sub_window_map['view'] = sub
             
     def insert_item(self, dialog_type,title):
-        # κοιταει μεσα στο map του subwindow αν υπαρχει η insert και δεν επιτεπει να ξανα τρεξει αμα τρεχει ηδη
+        # κοιτάει μεσα στο map του subwindow αν υπαρχει η insert και δεν επιτρέπει να ξανα τρεξει αμα τρεχει ηδη
         if 'insert'in self.sub_window_map:
             existing_sub_window = self.sub_window_map['insert']
             if existing_sub_window.isVisible():
@@ -110,25 +106,12 @@ class UI(QMainWindow):
         sub.setFixedSize(940, 655)
         sub.setWindowFlags(Qt.WindowType.SubWindow | Qt.WindowType.WindowMinimizeButtonHint | Qt.WindowType.WindowCloseButtonHint)
 
-        #cdialog = CanguroDialog()
-        #cdialog.setupUi(sub)
-
         try:
             cdialog = dialog_type()
             cdialog.setupUi(sub)
-            #cdialog.init_signal_slot()
             print("Dialog setup successfully\n")
         except Exception as e:
-            print(f"Error in dialog setup: {e}\n")# Ή κάποιο άλλο μέθοδο για να ρυθμίσεις το UI
-        #self.c_add_pushButton = self.findChild(QPushButton, "c_add_pushButton")
-        #self.c_add_pushButton.triggered.connect(self.c_product_info)
-        #if self.add_btn.isChecked():
-        #    print("Το κουμπί είναι ενεργό (checked)")
-        #else:
-        #    print(
-            # "Το κουμπί είναι ανενεργό (unchecked)")
-        
-        #cdialog.c_add_pushButton.clicked.connect(self.c_product_info)
+            print(f"Error in dialog setup: {e}\n")
         
         self.sub_window_map['insert'] = sub
         self.dialog_instance = cdialog
@@ -137,7 +120,6 @@ class UI(QMainWindow):
         sub.show()
 
     def edit_item(self):
-        #if not self.sub_window_open:
         sub = QMdiSubWindow()
         sub.setWidget(QTextEdit())
         sub.setWindowTitle('delete item')
@@ -148,7 +130,6 @@ class UI(QMainWindow):
         
         
     def delete_item(self, dialog_type,title):
-        # κοιταει μεσα στο map του subwindow αν υπαρχει η edit και δεν επιτεπει να ξανα τρεξει αμα τρεχει ηδη
         if 'edit'in self.sub_window_map:
             existing_sub_window = self.sub_window_map['edit']
             if existing_sub_window.isVisible():
