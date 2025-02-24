@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1145</width>
+    <height>766</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QMdiArea" name="mdiArea">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1141</width>
+      <height>731</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1145</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuWarehouse">
+    <property name="title">
+     <string>Αποθήκη</string>
+    </property>
+    <addaction name="aview"/>
+    <addaction name="acins"/>
+    <addaction name="adel"/>
+    <addaction name="aedit"/>
+    <addaction name="separator"/>
+    <addaction name="acshoes"/>
+    <addaction name="accloth"/>
+   </widget>
+   <widget class="QMenu" name="menuStatistics">
+    <property name="title">
+     <string>Στατιστικά</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuNotification">
+    <property name="title">
+     <string>Ειδοποιησης</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuAdmin">
+    <property name="title">
+     <string>Admin</string>
+    </property>
+    <addaction name="actionUpdate"/>
+    <addaction name="actionAdd_brands"/>
+   </widget>
+   <addaction name="menuWarehouse"/>
+   <addaction name="menuStatistics"/>
+   <addaction name="menuNotification"/>
+   <addaction name="menuAdmin"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="acins">
+   <property name="text">
+    <string>Εισαγωγή</string>
+   </property>
+  </action>
+  <action name="adel">
+   <property name="text">
+    <string>Εξαγωγή</string>
+   </property>
+  </action>
+  <action name="aedit">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acFins">
+   <property name="text">
+    <string>ΤΟ ΤΗΙΝΚ</string>
+   </property>
+  </action>
+  <action name="acFdel">
+   <property name="text">
+    <string>ΤΟ ΤΗΙΝΚ</string>
+   </property>
+  </action>
+  <action name="Fedit">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acFview">
+   <property name="text">
+    <string>Προβολή</string>
+   </property>
+  </action>
+  <action name="acVview">
+   <property name="text">
+    <string>Προβολη</string>
+   </property>
+  </action>
+  <action name="acVdel">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="action_6">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acVins">
+   <property name="text">
+    <string>Εισαγωγή</string>
+   </property>
+  </action>
+  <action name="acSMview">
+   <property name="text">
+    <string>ΤΟ ΤΗΙΝΚ</string>
+   </property>
+  </action>
+  <action name="action_9">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="action_10">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acSMins">
+   <property name="text">
+    <string>ΤΟ ΤΗΙΝΚ</string>
+   </property>
+  </action>
+  <action name="acCview">
+   <property name="text">
+    <string>ΤΟ ΤΗΙΝΚ</string>
+   </property>
+  </action>
+  <action name="acCins">
+   <property name="text">
+    <string>Εισαγωγή νέου προιόντος</string>
+   </property>
+  </action>
+  <action name="acCdel">
+   <property name="text">
+    <string>ΤΟ ΤΗΙΝΚ</string>
+   </property>
+  </action>
+  <action name="action_15">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="action_16">
+   <property name="text">
+    <string>Εισαγωγή</string>
+   </property>
+  </action>
+  <action name="action_17">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="action_18">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="action_19">
+   <property name="text">
+    <string>Προβολή</string>
+   </property>
+  </action>
+  <action name="accloth">
+   <property name="text">
+    <string>Ενδυμασία</string>
+   </property>
+  </action>
+  <action name="acshoes">
+   <property name="text">
+    <string>Υποδηματα</string>
+   </property>
+  </action>
+  <action name="actionUpdate">
+   <property name="text">
+    <string>Update</string>
+   </property>
+  </action>
+  <action name="acMMins">
+   <property name="text">
+    <string>Eισαγωγή</string>
+   </property>
+  </action>
+  <action name="acMMdel">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="action_24">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acMMview">
+   <property name="text">
+    <string>Προβολή</string>
+   </property>
+  </action>
+  <action name="acFMview">
+   <property name="text">
+    <string>Προβολή</string>
+   </property>
+  </action>
+  <action name="action_27">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acFMdel">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="acFMins">
+   <property name="text">
+    <string>Εισαγωγή</string>
+   </property>
+  </action>
+  <action name="acTins">
+   <property name="text">
+    <string>Εισαγωγή</string>
+   </property>
+  </action>
+  <action name="acTdel">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="action_32">
+   <property name="text">
+    <string>Τροποποίηση</string>
+   </property>
+  </action>
+  <action name="acTview">
+   <property name="text">
+    <string>Προβολή</string>
+   </property>
+  </action>
+  <action name="acSMdel">
+   <property name="text">
+    <string>Διαγραφή</string>
+   </property>
+  </action>
+  <action name="aview">
+   <property name="text">
+    <string>Προβολή</string>
+   </property>
+  </action>
+  <action name="actionAdd_brands">
+   <property name="text">
+    <string>Add brands</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
