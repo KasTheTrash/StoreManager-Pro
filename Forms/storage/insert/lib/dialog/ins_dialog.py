@@ -397,27 +397,7 @@ class Ui_Dialog(object):
         except Exception as e:
             print(f"Error in del_table_update: {str(e)}")
             QMessageBox.critical(self, "Error", f"Failed to update table: {str(e)}")
-        ##print("c_table_update")
-        #self.db = ConnectDatabase()
-        ##print("Updating table...")
-        #data = self.db.tabel_insert_view()  # brand_filter brand_filter='Canguro'
-        ##print("Data for table update:", data)
-        #
-        ## Δημιουργία μοντέλου
-        #self.model = QStandardItemModel()
-        #self.model.setHorizontalHeaderLabels(["ID" ,"Product Code", "Name", "Color", "Brand", "Seasons", "Size", "Material", "Description", "Buying Price", "Sale Price", "Gross Profit", "Price Per Unit", "Quantity", "Tax Percentage", "creation date"])
-        #
-        #for row in data:
-        #    items = [QStandardItem(str(item)) for item in row]
-        #    self.model.appendRow(items)
-        #
-        #self.proxy_model = QSortFilterProxyModel()
-        #self.proxy_model.setSourceModel(self.model)
-        #self.proxy_model.setFilterCaseSensitivity(QtCore.Qt.CaseSensitivity.CaseInsensitive)
-
-        #self.c_tableView.setModel(self.proxy_model)
-        #self.c_tableView.setSortingEnabled(True)  # Ενεργοποίηση ταξινόμησης
-
+        
     def load_existing_brands(self):
             try:
                 self.db = ConnectDatabase()
