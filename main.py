@@ -1,4 +1,5 @@
 import subprocess
+import os
 from PyQt6.QtWidgets import QApplication, QMainWindow,QVBoxLayout, QStatusBar, QWidget, QLabel, QPushButton, QTextEdit, QMdiSubWindow, QMdiArea, QDialog, QMessageBox ,QLineEdit, QPlainTextEdit ,QComboBox, QTableView 
 from PyQt6.QtGui import QAction, QKeySequence, QKeyEvent, QShortcut, QIntValidator 
 from PyQt6.QtCore import Qt
@@ -26,7 +27,8 @@ class MyDialog(QDialog):
 class UI(QMainWindow):
     def __init__(self):
         super(UI, self).__init__()
-        uic.loadUi("main.ui", self)
+        ui_path = os.path.join(os.path.dirname(__file__), "main.ui")
+        uic.loadUi(ui_path, self)
         self.setWindowTitle("StoreManager PRO")
         
         self.statusBar = self.findChild(QStatusBar, "statusbar")
@@ -78,7 +80,7 @@ class UI(QMainWindow):
         self.show()
         
     def run_update_script(self):
-        result = subprocess.run(['python', r'Forms/management/update/update.py'])
+        result = subprocess.run(['python', r'Forms/management/update/update.py'], capture_output=True, text=True)
         if result.returncode == 0:
             print("Η εκτέλεση του update ήταν επιτυχής.")
             print(result.stdout) 
