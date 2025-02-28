@@ -15,10 +15,11 @@ from PyQt6 import uic
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 import psycopg2
 from connect_database import ConnectDatabase
+import logging
+#import dash_ag_grid as dag
+#import pandas as pd
 
-import dash_ag_grid as dag
-import pandas as pd
-
+logging.basicConfig(level=logging.INFO)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -127,11 +128,6 @@ class Ui_Dialog(object):
         self.verticalLayout_6.addWidget(self.c_season_lineEdit)
         self.c_brand_comboBox = QtWidgets.QComboBox(parent=self.layoutWidget_5)
         self.c_brand_comboBox.setObjectName("c_brand_comboBox")
-        #self.c_brand_comboBox.addItem("")
-        #self.c_brand_comboBox.setItemText(0, "")
-        #self.c_brand_comboBox.addItem("")
-        #self.c_brand_comboBox.addItem("")
-        #self.c_brand_comboBox.addItem("")
         self.verticalLayout_6.addWidget(self.c_brand_comboBox)
         self.c_quantity_lineEdit = QtWidgets.QLineEdit(parent=self.layoutWidget_5)
         self.c_quantity_lineEdit.setObjectName("c_quantity_lineEdit")
@@ -183,15 +179,13 @@ class Ui_Dialog(object):
         self.label_14.setGeometry(QtCore.QRect(682, 25, 36, 20))
         self.label_14.setStyleSheet("")
         self.label_14.setObjectName("label_14")
-        #self.c_brand_lineEdit = QtWidgets.QLineEdit(parent=self.frame)
-        #self.c_brand_lineEdit.setGeometry(QtCore.QRect(760, 90, 129, 22))
-        #self.c_brand_lineEdit.setObjectName("c_brand_lineEdit")
         
         self.c_table_update()#brand_filter='Canguro'
         self.load_existing_brands()
-        self.init_signal_slot()
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.c_add_pushButton.clicked.connect(self.c_product_info)
+        #self.init_signal_slot()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -209,22 +203,18 @@ class Ui_Dialog(object):
         self.label_10.setText(_translate("Dialog", "*Season"))
         self.label.setText(_translate("Dialog", "*Brand"))
         self.label_9.setText(_translate("Dialog", "*Ποσότητα"))
-        #self.c_brand_comboBox.setItemText(1, _translate("Dialog", "Canguro"))
-        #self.c_brand_comboBox.setItemText(2, _translate("Dialog", "Flivver"))
-        #self.c_brand_comboBox.setItemText(3, _translate("Dialog", "Marina Militare"))
         self.c_add_pushButton.setText(_translate("Dialog", "Εισαγωγή"))
         self.label_14.setText(_translate("Dialog", "Φόρος"))
 
-    def init_signal_slot(self):
-        print("init_signal_slot")
+    def init_signal_slot(self) -> None:
         if self.c_add_pushButton.isChecked():
-            print("Το κουμπί είναι ενεργό (checked)")
+            logging.info("Το κουμπί είναι ενεργό (checked)")
         else:
-            print("Το κουμπί είναι ανενεργό (unchecked)")
+            logging.error("Το κουμπί είναι ανενεργό (unchecked)")
+            
+        self.c_add_pushButton.clicked.connect(self.c_product_info)  
         
-        self.c_add_pushButton.clicked.connect(self.c_product_info)
-        
-        print("Η σύνδεση του κουμπιού με τη μέθοδο έγινε σωστά.")
+
 
     def get_c_product_info(self):
         print("get_c_product_info")
@@ -266,10 +256,8 @@ class Ui_Dialog(object):
 
     def c_product_info(self):
         #print("c_product_info")
-        #self.enable_buttons()
-        #self.add_btn.setDisabled(True)
         product_info = self.get_c_product_info()
-        print("Product Info:", product_info)
+        logging.info("Product Info:", product_info)
         
         self.db = ConnectDatabase()
         
@@ -331,7 +319,7 @@ class Ui_Dialog(object):
                                                     
         except psycopg2.errors.UniqueViolation as e:
             self.db.connection.rollback()  # Rollback the transaction on duplicate error
-            print("Unique constraint violation detected. Error:", e)  # Debugging print
+            logging.exception("Unique constraint violation detected. Error:", e)  # Debugging print
 
             # Display message box for duplicate key error
             QMessageBox.warning(
@@ -344,7 +332,7 @@ class Ui_Dialog(object):
         except psycopg2.IntegrityError as e:
             self.db.connection.rollback()  # Rollback the transaction in case of a general IntegrityError
             error_message = str(e)
-            print("IntegrityError detected:", error_message)  # Debugging print
+            logging.exception("IntegrityError detected:", error_message)  # Debugging print
 
             QMessageBox.warning(
                 self, 
@@ -356,7 +344,7 @@ class Ui_Dialog(object):
         except Exception as e:
             #self.db.connection.rollback()  # Rollback the transaction in case of other unexpected errors
             # Handle any other unexpected errors
-            print("An unexpected error occurred:", e)  # Debugging print
+            logging.exception("An unexpected error occurred:", e)  # Debugging print
             QMessageBox.critical(None, "Database Error", "An unexpected error occurred: {}".format(str(e)))
 
         self.c_table_update()#brand_filter=product_info["c_brand_comboBox"]
@@ -371,8 +359,8 @@ class Ui_Dialog(object):
             data = self.db.tabel_insert_view()  # brand_filter brand_filter='Canguro'
             #print("Data for table update:", data)
             if data is None:
-                print("No data returned from database")
-                return
+                logging.info("No data returned from database")
+                return 
             # Δημιουργία μοντέλου
             self.model = QStandardItemModel()
             self.model.setHorizontalHeaderLabels(["ID" ,"Product Code", "Name", "Color", "Brand", "Seasons", "Size", "Material", "Description", "Buying Price", "Sale Price", "Gross Profit", "Price Per Unit", "Quantity", "Tax Percentage", "creation date"])
@@ -392,10 +380,10 @@ class Ui_Dialog(object):
                 for column in range(self.model.columnCount()):
                     self.c_tableView.resizeColumnToContents(column)
             else:
-                print("c_tableView not found")
+                logging.error("c_tableView not found")
 
         except Exception as e:
-            print(f"Error in del_table_update: {str(e)}")
+            logging.exception(f"Error in del_table_update: {str(e)}")
             QMessageBox.critical(self, "Error", f"Failed to update table: {str(e)}")
         
     def load_existing_brands(self):
