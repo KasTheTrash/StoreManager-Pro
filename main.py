@@ -1,19 +1,15 @@
 import subprocess
-from PyQt6.QtWidgets import QApplication, QMainWindow,QVBoxLayout,  QWidget, QLabel, QPushButton, QTextEdit, QMdiSubWindow, QMdiArea, QDialog, QMessageBox ,QLineEdit, QPlainTextEdit ,QComboBox, QTableView 
+from PyQt6.QtWidgets import QApplication, QMainWindow,QVBoxLayout, QStatusBar, QWidget, QLabel, QPushButton, QTextEdit, QMdiSubWindow, QMdiArea, QDialog, QMessageBox ,QLineEdit, QPlainTextEdit ,QComboBox, QTableView 
 from PyQt6.QtGui import QAction, QKeySequence, QKeyEvent, QShortcut, QIntValidator 
 from PyQt6.QtCore import Qt
 from PyQt6 import uic 
-from PyQt6.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt6.QtGui import QStandardItemModel, QStandardItem
-import atexit
-import psycopg2
-from psycopg2 import errors 
 from Forms.storage.insert.lib.dialog.ins_dialog import Ui_Dialog as InsertDialog
 from Forms.storage.delete.lib.dialog.del_dialog import Ui_DellDialog as DellDialog
 from Forms.management.Add_brand.add_brands import Ui_AddBrand as BrandDialog
 from connect_database import ConnectDatabase
 import sys
 
+APP_VERSION = "Alpha 1.0"
 
 class MyDialog(QDialog):
     def __init__(self, dialog_type):
@@ -32,6 +28,13 @@ class UI(QMainWindow):
         super(UI, self).__init__()
         uic.loadUi("main.ui", self)
         self.setWindowTitle("StoreManager PRO")
+        
+        self.statusBar = self.findChild(QStatusBar, "statusbar")
+        self.versionLabel = QLabel(f"Version: {APP_VERSION}")
+        self.statusBar.addWidget(self.versionLabel)
+        #addWidget() moving the verion label to the right
+        #addPermanentWidget() moving the verion label to the left
+        
         
         self.db = ConnectDatabase()
         
