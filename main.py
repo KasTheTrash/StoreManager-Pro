@@ -1,5 +1,8 @@
 import subprocess
 import os
+import sys
+import logging
+import subprocess
 from PyQt6.QtWidgets import QApplication, QMainWindow,QVBoxLayout, QStatusBar, QWidget, QLabel, QPushButton, QTextEdit, QMdiSubWindow, QMdiArea, QDialog, QMessageBox ,QLineEdit, QPlainTextEdit ,QComboBox, QTableView 
 from PyQt6.QtGui import QAction, QKeySequence, QKeyEvent, QShortcut, QIntValidator 
 from PyQt6.QtCore import Qt
@@ -8,9 +11,9 @@ from Forms.storage.insert.lib.dialog.ins_dialog import Ui_Dialog as InsertDialog
 from Forms.storage.delete.lib.dialog.del_dialog import Ui_DellDialog as DellDialog
 from Forms.management.Add_brand.add_brands import Ui_AddBrand as BrandDialog
 from connect_database import ConnectDatabase
-import sys
 
 APP_VERSION = "Alpha 1.0"
+logging.basicConfig(level=logging.INFO)
 
 class MyDialog(QDialog):
     def __init__(self, dialog_type):
@@ -31,63 +34,42 @@ class UI(QMainWindow):
         uic.loadUi(ui_path, self)
         self.setWindowTitle("StoreManager PRO")
         
+        # Set up version label
         self.statusBar = self.findChild(QStatusBar, "statusbar")
         self.versionLabel = QLabel(f"Version: {APP_VERSION}")
         self.statusBar.addWidget(self.versionLabel)
         #addWidget() moving the verion label to the right
         #addPermanentWidget() moving the verion label to the left
-        
-        
+
         self.db = ConnectDatabase()
-        
-        self.actionUpdate.triggered.connect(self.run_update_script)
-        
+
         self.mdi = self.findChild(QMdiArea, "mdiArea")
         self.setCentralWidget(self.mdi)
-        
-        #views findChild
-        self.action_view = self.findChild(QAction, "aview")
-        
-        #inserts findChild
-        self.action_c_ins = self.findChild(QAction, "acins") 
-        
-        #edit findChild
-        self.action_edit = self.findChild(QAction, "aedit") 
-        
-        #deletes findChild
-        self.action_delete = self.findChild(QAction, "adel")
-        
-        #add brand findChild
-        self.action_addbrand = self.findChild(QAction, "actionAdd_brands")
-        
-        #views actions
-        self.action_view.triggered.connect(self.view_item)
-        
-        #edits actions
-        self.action_delete.triggered.connect(lambda: self.delete_item(DellDialog, 'Τροποποιησή στοιχείων'))
-        
-        #inserts actions
-        self.action_c_ins.triggered.connect(lambda: self.insert_item(InsertDialog, 'Εισαγωγή στοιχείων'))
-        
-        #deletes actions
-        self.action_edit.triggered.connect(self.view_item)
-        
-        self.action_addbrand.triggered.connect(self.show_brand_dialog)   #lambda: self.add_brands(BrandDialog, 'Προσθήκη νέου brand')
-        
-        #subwindows checking 
+
         self.sub_window_map = {}  # Change to a list
-        
+        self.setup_actions()
         self.show()
         
+    def setup_actions(self):
+        self.actionUpdate.triggered.connect(self.run_update_script)
+        self.findChild(QAction, "aview").triggered.connect(self.view_item)
+        self.findChild(QAction, "acins").triggered.connect(lambda: self.insert_item(InsertDialog, 'Εισαγωγή στοιχείων'))
+        self.findChild(QAction, "aedit").triggered.connect(self.view_item)
+        self.findChild(QAction, "adel").triggered.connect(lambda: self.delete_item(DellDialog, 'Τροποποιησή στοιχείων'))
+        self.findChild(QAction, "actionAdd_brands").triggered.connect(self.show_brand_dialog)
+
     def run_update_script(self):
-        result = subprocess.run(['python', r'Forms/management/update/update.py'], capture_output=True, text=True)
-        if result.returncode == 0:
-            print("Η εκτέλεση του update ήταν επιτυχής.")
-            print(result.stdout) 
-        else:
-            print("Σφάλμα κατά την εκτέλεση του update.")
-            print(result.stderr)  
-        
+        try:
+            result = subprocess.run(['python', r'Forms/management/update/update.py'], capture_output=True, text=True)
+            if result.returncode == 0:
+                logging.info("Update script executed successfully.")
+                logging.info(result.stdout)
+            else:
+                logging.error("Error running update script.")
+                logging.error(result.stderr)
+        except Exception as e:
+            logging.exception("Exception while running update script.")
+
     def view_item(self):
             sub = QMdiSubWindow()
             sub.setWidget(QTextEdit())
@@ -99,7 +81,6 @@ class UI(QMainWindow):
             self.sub_window_map['view'] = sub
             
     def insert_item(self, dialog_type,title):
-        # κοιτάει μεσα στο map του subwindow αν υπαρχει η insert και δεν επιτρέπει να ξανα τρεξει αμα τρεχει ηδη
         if 'insert'in self.sub_window_map:
             existing_sub_window = self.sub_window_map['insert']
             if existing_sub_window.isVisible():
@@ -114,9 +95,9 @@ class UI(QMainWindow):
         try:
             cdialog = dialog_type()
             cdialog.setupUi(sub)
-            print("Dialog setup successfully\n")
+            logging.info("Dialog setup successfully\n")
         except Exception as e:
-            print(f"Error in dialog setup: {e}\n")
+            logging.exception(f"Error in dialog setup: {e}\n")
         
         self.sub_window_map['insert'] = sub
         self.dialog_instance = cdialog
@@ -131,7 +112,7 @@ class UI(QMainWindow):
         sub.destroyed.connect(lambda: self.sub_window_closed('delete'))
         self.mdi.addSubWindow(sub)
         sub.show()
-        print("Delete item action triggered")
+        logging.info("Delete item action triggered")
         
         
     def delete_item(self, dialog_type,title):
@@ -149,9 +130,9 @@ class UI(QMainWindow):
         try:
             dialog = dialog_type()
             sub.setWidget(dialog)
-            print("Dialog setup successfully\n")
+            logging.info("Dialog setup successfully\n")
         except Exception as e:
-            print(f"Error in dialog setup: {e}\n")# Ή κάποιο άλλο μέθοδο για να ρυθμίσεις το UI
+            logging.exception(f"Error in dialog setup: {e}\n")
             
         self.sub_window_map['edit'] = sub
         
@@ -161,6 +142,7 @@ class UI(QMainWindow):
     def show_brand_dialog(self):
         dialog = BrandDialog(self)
         dialog.exec()
+        
 if __name__ == "__main__":
     import sys
     import atexit
