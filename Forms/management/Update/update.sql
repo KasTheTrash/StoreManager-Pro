@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS product (
     material VARCHAR(255),
     description TEXT,
     buying_price DECIMAL(8,2) NOT NULL,
-    sale_price INT NOT NULL,
+    sale_price DECIMAL(8,2) NOT NULL,
     gross_profit DECIMAL(8,2) DEFAULT 0.00,
     price_per_unit DECIMAL(8,2),
     quantity INT NOT NULL CHECK (quantity >= 0.0),--CHECK (quantity >= 0.0)
