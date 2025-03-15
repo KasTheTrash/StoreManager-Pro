@@ -71,14 +71,6 @@ class ConnectDatabase:
         except Exception as e:
             print(f"Database error: {str(e)}")
             return None
-        
-        #sql = "SELECT * FROM product WHERE brand is not null" #= 'Canguro'
-        #
-        #with self.conn.cursor() as cursor:
-        #        cursor.execute(sql)
-        #        result = cursor.fetchall()
-        #        #print("Fetched Data:", result)  # Εκτύπωση των δεδομένων
-        #        return result
 
     def tabel_delete_view(self,brand_filter=None):
         try:
@@ -92,14 +84,6 @@ class ConnectDatabase:
         except Exception as e:
             print(f"Database error: {str(e)}")
             return None
-        
-        #sql = "SELECT * FROM product WHERE brand is not null" #= 'Canguro'
-        #
-        #with self.conn.cursor() as cursor:
-        #        cursor.execute(sql)
-        #        result = cursor.fetchall()
-        #        #print("Fetched Data:", result)  # Εκτύπωση των δεδομένων
-        #        return result
 
     def product_code_exists(self, c_productcode):
         sql = "SELECT COUNT(*) FROM product WHERE productcode = %s"
