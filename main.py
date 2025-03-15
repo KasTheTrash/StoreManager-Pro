@@ -143,6 +143,7 @@ class UI(QMainWindow):
         dialog = BrandDialog(self)
         dialog.exec()
         
+        #test for git git push
 if __name__ == "__main__":
     import sys
     import atexit
