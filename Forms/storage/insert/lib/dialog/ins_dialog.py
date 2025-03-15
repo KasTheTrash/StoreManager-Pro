@@ -213,8 +213,6 @@ class Ui_Dialog(object):
             logging.error("Το κουμπί είναι ανενεργό (unchecked)")
             
         self.c_add_pushButton.clicked.connect(self.c_product_info)  
-        
-
 
     def get_c_product_info(self):
         print("get_c_product_info")
@@ -226,7 +224,6 @@ class Ui_Dialog(object):
         c_size = self.c_size_lineEdit.text().strip()
         c_seasons = self.c_season_lineEdit.text().strip()
         c_description = self.c_description_plainTextEdit.toPlainText().strip()
-        #c_buying_price = float(self.c_buying_price.text().strip()) if self.c_buying_price.text().strip() else None
         c_buying_price = self.c_buying_price_lineEdit.text().strip()
         c_sale_price = self.c_sale_price_lineEdit.text().strip()
         c_gross_profit = self.c_gross_profit_lineEdit.text().strip()
@@ -262,8 +259,6 @@ class Ui_Dialog(object):
         self.db = ConnectDatabase()
         
         if  not product_info["c_productcode"].strip():
-            #QMessageBox.warning(self, "Invalid Input", "Product Code must be a valid Text.", QMessageBox.StandardButton.Ok)
-            #QMessageBox.warning(self.parent(), "Invalid Input", "Product Code must be a valid Text.", QMessageBox.StandardButton.Ok)
             QMessageBox.warning(None, "Invalid Input", "Product Code must be a valid Text.", QMessageBox.StandardButton.Ok)
             return
         
@@ -363,7 +358,7 @@ class Ui_Dialog(object):
                 return 
             # Δημιουργία μοντέλου
             self.model = QStandardItemModel()
-            self.model.setHorizontalHeaderLabels(["ID" ,"Product Code", "Name", "Color", "Brand", "Seasons", "Size", "Material", "Description", "Buying Price", "Sale Price", "Gross Profit", "Price Per Unit", "Quantity", "Tax Percentage", "creation date"])
+            self.model.setHorizontalHeaderLabels(["ID" ,"Product Code", "Name", "Color", "Brand", "Seasons", "Size", "Material", "Description", "Buying Price", "Sale Price", "Gross Profit", "Price Per Unit", "Quantity", "Tax Percentage", "Creation Date"])
 
             for row in data:
                 items = [QStandardItem(str(item)) for item in row]
@@ -390,7 +385,6 @@ class Ui_Dialog(object):
             try:
                 self.db = ConnectDatabase()
                 with self.db.conn.cursor() as cursor:
-                    #cursor.execute("SELECT DISTINCT brand FROM product WHERE brand IS NOT NULL ORDER BY brand")
                     cursor.execute("SELECT DISTINCT brand_name FROM brands WHERE brand_name IS NOT NULL AND active = True ORDER BY brand_name")
                     brands = cursor.fetchall()
                     self.c_brand_comboBox.clear()
@@ -405,7 +399,6 @@ class Ui_Dialog(object):
         self.c_size_lineEdit.clear()
         self.c_material_lineEdit.clear()
         self.c_color_lineEdit.clear()
-        #self.c_brand_lineEdit.clear()
         self.c_season_lineEdit.clear()
         self.c_quantity_lineEdit.clear()
         self.c_buying_price_lineEdit.clear()
