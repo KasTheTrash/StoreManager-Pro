@@ -16,3 +16,4 @@ PyQt6-tools
 PySide6
 pandas
 dash_ag_grid
+types-psycopg2
