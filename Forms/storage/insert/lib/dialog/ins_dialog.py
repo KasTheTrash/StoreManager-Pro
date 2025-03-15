@@ -185,7 +185,6 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         self.c_add_pushButton.clicked.connect(self.c_product_info)
-        #self.init_signal_slot()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
